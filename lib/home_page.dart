@@ -14,20 +14,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int counter = 0;
   final IncrementDecrementBloc incrementDecrementBloc =
       IncrementDecrementBloc();
   @override
   void initState() {
-    // TODO: implement initState
-    incrementDecrementBloc.add(IncrementEvent(counter));
+    incrementDecrementBloc.add(const IncrementEvent());
     super.initState();
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      counter++;
-    });
   }
 
   @override
@@ -36,34 +28,38 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            BlocBuilder<IncrementDecrementBloc, IncrementDecrementState>(
-              builder: (context, state) {
-                if (state is IncrementState) {
-                  log('increment very well');
+      body: BlocProvider(
+        create: (context) => incrementDecrementBloc,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'You have pushed the button this many times:',
+              ),
+              BlocBuilder<IncrementDecrementBloc, IncrementDecrementState>(
+                builder: (context, state) {
+                  if (state is IncrementState) {
+                    // counter = state.counter;
+                    log('increment very well');
+                    return Text(
+                      '${state.counter}',
+                      style: Theme.of(context).textTheme.headline4,
+                    );
+                  }
                   return Text(
-                    '${state.counter}',
+                    'empty',
                     style: Theme.of(context).textTheme.headline4,
                   );
-                }
-                return Text(
-                  '$counter',
-                  style: Theme.of(context).textTheme.headline4,
-                );
-              },
-            ),
-          ],
+                },
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          incrementDecrementBloc.add(IncrementEvent(counter));
+          incrementDecrementBloc.add(const IncrementEvent());
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),

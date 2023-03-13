@@ -5,12 +5,10 @@ abstract class IncrementDecrementEvent extends Equatable {
 }
 
 class IncrementEvent extends IncrementDecrementEvent {
-  final int counter;
-
-  const IncrementEvent(this.counter);
+  const IncrementEvent();
   @override
   // TODO: implement props
-  List<Object?> get props => [counter];
+  List<Object?> get props => [];
 }
 
 class DecrementEvent extends IncrementDecrementEvent {
